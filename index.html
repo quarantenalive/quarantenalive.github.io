@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Quarantena Live</title>
+        <meta name="description" content="Grafici e dati sul COVID-19 nelle regioni italiane aggiornati in tempo reale">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+
+        <style>
+         #observable {
+             width: 95%;
+             max-width: 1000px;
+             margin: 0 auto;
+         }
+         body {
+             font-family: "Source Serif Pro",Iowan Old Style,Apple Garamond,Palatino Linotype,Times New Roman,"Droid Serif",Times,serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+             font-size: 17px;
+         }
+         h1, h2, h3, h4, h5, h6 {
+             color: #333;
+             font-weight: 700;
+             line-height: 1.15;
+             margin-top: 0;
+             margin-bottom: .25em;
+         }
+         #choice {
+             margin-top: 20px;
+             margin-bottom: 20px;
+         }
+         #top, #bottom {
+             text-align: center;
+             width: 100%;
+         }
+        </style>
+    </head>
+    <body>
+        <div id="observable">
+            <div id="top"><h1>Quarantena Live</h1></div>
+        </div>
+        <script type="module">
+
+         // Load the Observable runtime and inspector.
+         import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@4/dist/runtime.js";
+
+         // Your notebook, compiled as an ES module.
+         import notebook from "https://api.observablehq.com/@nicola/regioni-italiane-covid.js?v=3&a=1";
+
+         // Load the notebook, observing its cells with a default Inspector
+         // that simply renders the value of each cell into the provided DOM node.
+         const renders = {
+             "header": "header",
+             "viewof choice": "choice",
+             "totale_casi": "totale_casi",
+             "deceduti": "deceduti",
+             "guariti": "guariti",
+             "ospedalizzati": "ospedalizzati",
+             "ricoverati": "ricoverati",
+             "intensiva": "intensiva",
+             "tamponi": "tamponi",
+             "style1": "style1",
+             "bottom": "bottom"
+         }
+         const obs = document.querySelector('#observable')
+         Object.values(renders).forEach(d => {
+             const div = document.createElement('div')
+             div.id = d
+             obs.appendChild(div)
+         })
+         const runtime = new Runtime();
+         const main = runtime.module(notebook, name => {
+             if (renders[name]) {
+                 return new Inspector(document.querySelector(`#${renders[name]}`));
+             }
+         });
+        </script>
+    </body>
+</html>
